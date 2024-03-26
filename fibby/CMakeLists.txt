@@ -1,6 +1,9 @@
+include_directories("${CMAKE_BINARY_DIR}/src")
+
 # Prepping the module
 set(f2py_module_name "fibby")
-set(fortran_src_file "${CMAKE_SOURCE_DIR}/src/main.f")
+#set(fortran_src_file "${CMAKE_SOURCE_DIR}/src/transport_spatial_methods/3d/main.f90")
+set(fortran_src_file "${CMAKE_SOURCE_DIR}/src/transport_spatial_methods/4d/main.f")
 set(f2py_module_c "${f2py_module_name}module.c")
 
 # Target for enforcing dependencies
@@ -9,7 +12,7 @@ add_custom_command(
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${f2py_module_c}"
   COMMAND ${Python_EXECUTABLE} -m "numpy.f2py" "${fortran_src_file}" -m ${f2py_module_name}
           --lower # Important
-  DEPENDS "${fortran_src_file}" # Fortran source
+  DEPENDS "${fortran_src_file}" ${CMAKE_PROJECT_NAME} # Fortran source
 )
 
 python_add_library(
